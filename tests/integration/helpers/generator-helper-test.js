@@ -42,6 +42,7 @@ module("Integration | Helper | base-subscription-helper", function(hooks) {
       this.events = this.owner.lookup("service:events");
       this.trigger = value => {
         this.events.trigger("event", value);
+        return settled();
       };
 
       this.owner.register(
@@ -65,15 +66,13 @@ module("Integration | Helper | base-subscription-helper", function(hooks) {
 
       assert.dom().hasText("", "No initial value");
 
-      this.trigger(1);
-      await settled();
+      await this.trigger(1);
 
       assert
         .dom()
         .hasText("1", "Displays the value from the first event event");
 
-      this.trigger(2);
-      await settled();
+      await this.trigger(2);
 
       assert.dom().hasText("2", "Displays the value from the second event");
     });
@@ -91,8 +90,7 @@ module("Integration | Helper | base-subscription-helper", function(hooks) {
         {{respond-to-event initialValue="Initial Value"}}
       `);
 
-      this.trigger(undefined);
-      await settled();
+      await this.trigger(undefined);
 
       assert.dom().hasText("");
     });
