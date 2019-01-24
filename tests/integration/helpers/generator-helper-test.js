@@ -2,18 +2,18 @@ import { module, test } from "qunit";
 import { setupRenderingTest } from "ember-qunit";
 import { render, settled } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
-import GeneratorHelper from "ember-generator-helper";
+import BaseSubscriptionHelper from "ember-base-subscription-helper";
 import { inject as service } from "@ember/service";
 
-module("Integration | Helper | generator-helper", function(hooks) {
+module("Integration | Helper | base-subscription-helper", function(hooks) {
   setupRenderingTest(hooks);
 
   test("not implementing `subscribe`", function(assert) {
-    class NocreateGenerator extends GeneratorHelper {}
+    class NoSubscribe extends BaseSubscriptionHelper {}
 
     assert.throws(
       () => {
-        NocreateGenerator.create();
+        NoSubscribe.create();
       },
       /Must implement \`subscribe\`/,
       "Requires that `subscribe` is implemented"
@@ -23,7 +23,7 @@ module("Integration | Helper | generator-helper", function(hooks) {
   test("immediately emitting a value", async function(assert) {
     this.owner.register(
       "helper:immediately-emit-event",
-      class ImmediatelyEmitEvent extends GeneratorHelper {
+      class ImmediatelyEmitEvent extends BaseSubscriptionHelper {
         subscribe() {
           this.emit(1);
         }
@@ -46,7 +46,7 @@ module("Integration | Helper | generator-helper", function(hooks) {
 
       this.owner.register(
         "helper:respond-to-event",
-        GeneratorHelper.extend({
+        BaseSubscriptionHelper.extend({
           events: service(),
 
           subscribe() {

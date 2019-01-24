@@ -1,7 +1,7 @@
 import Helper from "@ember/component/helper";
 import { defer } from "rsvp";
 
-export default class GeneratorHelper extends Helper {
+export default class BaseSubscriptionHelper extends Helper {
   init() {
     super.init(...arguments);
 

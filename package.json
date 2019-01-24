@@ -1,5 +1,5 @@
 {
-  "name": "ember-generator-helper",
+  "name": "ember-base-subscription-helper",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
