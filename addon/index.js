@@ -22,7 +22,6 @@ export default class BaseSubscriptionHelper extends Helper {
   init() {
     super.init(...arguments);
 
-    this._hasProducedValue = false;
     this._previousParamers;
   }
 
@@ -31,8 +30,6 @@ export default class BaseSubscriptionHelper extends Helper {
 
     const asyncIterator = this.generate();
     for await (let result of asyncIterator) {
-      this._hasProducedValue = true;
-
       this.lastValue = result;
       this.recompute();
     }
