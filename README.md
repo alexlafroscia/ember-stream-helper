@@ -1,5 +1,8 @@
 # ember-stream-helper
 
+[![Build Status](https://travis-ci.com/alexlafroscia/ember-stream-helper.svg?branch=master)](https://travis-ci.com/alexlafroscia/ember-stream-helper)
+[![NPM Version](https://badgen.net/npm/v/ember-stream-helper)](https://www.npmjs.com/package/ember-stream-helper)
+
 > Base class for creating helpers that emit values over time
 
 Most of the time, [Ember Helpers][ember-helper] are thought of as pure functions that take some input, transform it, and return a new output. Helpers can actually do a lot more than that, though -- because they can recompute themselves, they can react to events and emit a new value even when their inputs have no changed. After using this pattern a few times, I thought it might be useful to extract out a base class that can be used to simplify this pattern.
