@@ -3,7 +3,7 @@ import { setupRenderingTest } from "ember-qunit";
 import { render, settled, clearRender } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 import td from "testdouble";
-import BaseSubscriptionHelper from "ember-base-subscription-helper";
+import BaseSubscriptionHelper from "ember-stream-helper";
 
 module("Integration | Helper | base-subscription-helper", function(hooks) {
   setupRenderingTest(hooks);

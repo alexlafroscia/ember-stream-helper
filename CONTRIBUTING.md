@@ -3,7 +3,7 @@
 ## Installation
 
 - `git clone <repository-url>`
-- `cd ember-base-subscription-helper`
+- `cd ember-stream-helper`
 - `yarn install`
 
 ## Linting

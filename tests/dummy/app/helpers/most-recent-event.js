@@ -1,4 +1,4 @@
-import BaseSubscriptionHelper from "ember-base-subscription-helper";
+import BaseSubscriptionHelper from "ember-stream-helper";
 import { inject as service } from "@ember-decorators/service";
 
 export default class MostRecentEvent extends BaseSubscriptionHelper {

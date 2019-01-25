@@ -1,4 +1,4 @@
-# ember-base-subscription-helper
+# ember-stream-helper
 
 [Short description of the addon.]
 
@@ -10,7 +10,7 @@
 ## Installation
 
 ```
-ember install ember-base-subscription-helper
+ember install ember-stream-helper
 ```
 
 ## Usage
