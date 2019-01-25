@@ -9,10 +9,10 @@ export default class MostRecentEvent extends BaseSubscriptionHelper {
       this.emit(data);
     };
 
-    this.events.on("event", callback);
+    this.get("events").on("event", callback);
 
     return () => {
-      this.events.off("event", callback);
+      this.get("events").off("event", callback);
     };
   }
 }

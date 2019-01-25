@@ -11,7 +11,7 @@ module("Integration | Helper | base-subscription-helper", function(hooks) {
   hooks.beforeEach(function() {
     this.events = this.owner.lookup("service:events");
     this.trigger = value => {
-      this.events.trigger("event", value);
+      this.get("events").trigger("event", value);
       return settled();
     };
   });
