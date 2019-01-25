@@ -21,7 +21,7 @@ export default class BaseSubscriptionHelper extends Helper {
   init() {
     super.init(...arguments);
 
-    this._previousParamers;
+    this._previousParameters;
   }
 
   subscribe() {
@@ -34,14 +34,14 @@ export default class BaseSubscriptionHelper extends Helper {
   }
 
   _parametersHaveChanged(positionalParams, hashParams) {
-    if (!this._previousParamers) {
+    if (!this._previousParameters) {
       return true;
     }
 
     const [
       previousPositionalParams,
       previousHashParams
-    ] = this._previousParamers;
+    ] = this._previousParameters;
 
     return (
       !arraysMatch(positionalParams, previousPositionalParams) ||
@@ -57,10 +57,8 @@ export default class BaseSubscriptionHelper extends Helper {
    */
   compute(positionalParams, hashParams) {
     if (this._parametersHaveChanged(positionalParams, hashParams)) {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
-      this._previousParamers = [positionalParams, hashParams];
+      this.unsubscribe && this.unsubscribe();
+      this._previousParameters = [positionalParams, hashParams];
 
       this.unsubscribe = this.subscribe(positionalParams, hashParams);
     }
