@@ -1,7 +1,8 @@
 import { module, test } from "qunit";
 import { setupRenderingTest } from "ember-qunit";
-import { render, settled } from "@ember/test-helpers";
+import { render, settled, clearRender } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
+import td from "testdouble";
 import BaseSubscriptionHelper from "ember-base-subscription-helper";
 
 module("Integration | Helper | base-subscription-helper", function(hooks) {
@@ -59,5 +60,92 @@ module("Integration | Helper | base-subscription-helper", function(hooks) {
     await this.trigger(2);
 
     assert.dom().hasText("2", "Displays the value from the second event");
+  });
+
+  module("subscribing based on params", function() {
+    test("`subscribe` is passed positional params", async function(assert) {
+      this.owner.register(
+        "helper:positional-params",
+        class PositionalParams extends BaseSubscriptionHelper {
+          subscribe(positionalParams) {
+            this.emit(JSON.stringify(positionalParams));
+          }
+        }
+      );
+
+      this.set("value", "foo");
+
+      await render(hbs`
+        {{positional-params value}} 
+      `);
+
+      assert.dom().hasText('["foo"]', "Renders the initial value");
+
+      this.set("value", "bar");
+      await settled();
+
+      assert.dom().hasText('["bar"]', "Renders the updated value");
+    });
+
+    test("`subscribe` is passed hash params", async function(assert) {
+      this.owner.register(
+        "helper:hash-params",
+        class HashParams extends BaseSubscriptionHelper {
+          subscribe(_, hashParams) {
+            this.emit(JSON.stringify(hashParams));
+          }
+        }
+      );
+
+      this.set("value", "foo");
+
+      await render(hbs`
+        {{hash-params value=value}} 
+      `);
+
+      assert.dom().hasText('{"value":"foo"}', "Renders the initial value");
+
+      this.set("value", "bar");
+      await settled();
+
+      assert.dom().hasText('{"value":"bar"}', "Renders the updated value");
+    });
+  });
+
+  module("calling the `unsubscribe` callback", function(hooks) {
+    hooks.beforeEach(function() {
+      const unsubscribe = td.function();
+
+      this.owner.register(
+        "helper:with-unsubscribe",
+        class WithUnsubscribe extends BaseSubscriptionHelper {
+          subscribe() {
+            return unsubscribe;
+          }
+        }
+      );
+      this.unsubscribe = unsubscribe;
+    });
+
+    test("it unsubscribes when the params change", async function(assert) {
+      this.set("value", "foo");
+
+      await render(hbs`
+        {{with-unsubscribe value}} 
+      `);
+
+      this.set("value", "bar");
+
+      assert.verify(this.unsubscribe(), "Called the `unsubscribe` callback");
+    });
+
+    test("it unsubscribed when the helper is destroyed", async function(assert) {
+      await render(hbs`
+        {{with-unsubscribe}} 
+      `);
+      await clearRender();
+
+      assert.verify(this.unsubscribe(), "Called the `unsubscribe` callback");
+    });
   });
 });
