@@ -1,5 +1,4 @@
 import Helper from "@ember/component/helper";
-import { defer } from "rsvp";
 
 function arraysMatch(first, second) {
   return first.reduce(
@@ -25,31 +24,13 @@ export default class BaseSubscriptionHelper extends Helper {
     this._previousParamers;
   }
 
-  async begin() {
-    this._deferred = defer();
-
-    const asyncIterator = this.generate();
-    for await (let result of asyncIterator) {
-      this.lastValue = result;
-      this.recompute();
-    }
-  }
-
   subscribe() {
     throw new Error("Must implement `subscribe`");
   }
 
   emit(value) {
-    this._deferred.resolve(value);
-    this._deferred = defer();
-  }
-
-  async *generate() {
-    while (!this.isDestroying && !this.isDestroyed) {
-      let value = await this._deferred.promise;
-
-      yield value;
-    }
+    this.lastValue = value;
+    this.recompute();
   }
 
   _parametersHaveChanged(positionalParams, hashParams) {
@@ -81,12 +62,7 @@ export default class BaseSubscriptionHelper extends Helper {
       }
       this._previousParamers = [positionalParams, hashParams];
 
-      this.begin();
       this.unsubscribe = this.subscribe(positionalParams, hashParams);
-    } else {
-      // TODO: emit was called; we don't have anything to do
-
-      return this.lastValue;
     }
 
     return this.lastValue;
