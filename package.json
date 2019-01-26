@@ -1,6 +1,6 @@
 {
   "name": "ember-stream-helper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Base class for creating helpers that emit values over time",
   "keywords": [
     "ember-addon"
