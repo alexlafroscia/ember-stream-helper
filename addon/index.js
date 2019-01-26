@@ -1,4 +1,5 @@
 import Helper from "@ember/component/helper";
+import { join } from "@ember/runloop";
 
 function arraysMatch(first, second) {
   return first.reduce(
@@ -30,7 +31,10 @@ export default class BaseSubscriptionHelper extends Helper {
 
   emit(value) {
     this.lastValue = value;
-    this.recompute();
+
+    join(() => {
+      this.recompute();
+    });
   }
 
   _parametersHaveChanged(positionalParams, hashParams) {
