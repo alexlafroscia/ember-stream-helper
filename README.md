@@ -5,7 +5,7 @@
 
 > Base class for creating helpers that emit values over time
 
-Most of the time, [Ember Helpers][ember-helper] are thought of as pure functions that take some input, transform it, and return a new output. Helpers can actually do a lot more than that, though -- because they can recompute themselves, they can react to events and emit a new value even when their inputs have no changed. After using this pattern a few times, I thought it might be useful to extract out a base class that can be used to simplify this pattern.
+Most of the time, [Ember Helpers][ember-helper] are thought of as pure functions that take some input, transform it, and return a new output. Helpers can actually do a lot more than that, though -- because they can recompute themselves, they can react to events and emit a new value even when their inputs have not changed. After using this pattern a few times, I thought it might be useful to extract out a base class that can be used to simplify this pattern.
 
 ## Usage
 
@@ -71,7 +71,7 @@ The `StreamHelper` class will handle running your `unsubscribe` callback when th
 
 ### The `unsubscribe` callback
 
-Make sure that you return any required cleanup logic in from `subscribe` -- do **not** perform it yourself in `willDestroy`. Any "cleanup" logic should be run both when the helper is destroyed _and_ when the parameters change and we're preparing to subscribew again with the new values. `StreamHelper` takes care of this for you, if you return the `unsubscribe` logic from `subscribe`!
+Make sure that you return any required cleanup logic in from `subscribe` -- do **not** perform it yourself in `willDestroy`. Any "cleanup" logic should be run both when the helper is destroyed _and_ when the parameters change and we're preparing to subscribe again with the new values. `StreamHelper` takes care of this for you, if you return the `unsubscribe` logic from `subscribe`!
 
 ## Installation
 
